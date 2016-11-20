@@ -1,4 +1,6 @@
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,28 +24,53 @@ public class Singleton implements Interf {
     }
 
 
-    public void addUser(String ID, Users u) {
+    public void addUser(String nombre,String password) {
+        Users u=new Users(nombre,password);
+        usuarios.put(nombre,u);
+        logger.info("se añade usuario: "+nombre);
+    }
 
-        usuarios.put(ID,u);
-        logger.info("se añade usuario");
+    public Users getUser(String nombre) {
+        return usuarios.get(nombre);
     }
 
     public void addPokemon(Users u, Pokemon p) {
-        u.añadirPokemon(p);
-        logger.info("se añade pokemon");
+        usuarios.get(u.getName()).añadirPokemon(p);
+        logger.info("se añade etakemon: "+ p.getName()+" al usuario: "+u.getName());
 
     }
 
-    public void updateUser(int ID, String name) {
+    public void updateUser(String name, String newname) {
+
+        Users u=usuarios.get(name);
+        u.setName(newname);
+        usuarios.remove(name);
+        usuarios.put(newname,u);
+        logger.info("nombre del usuario: "+name+" cambiado a: "+newname);
+    }
+
+    public String infoUsuario(String nombre) {
+
+        int i=usuarios.get(nombre).numeroPokemon();
+        String sol= "tiene "+i+" pokemon";
+        logger.info(sol);
+        return sol;
 
     }
 
-    public List<Users> returnUsers() {
-        return null;
+    public List<Pokemon> returnPokemon(Users u) {
+        logger.info("Se devuelve la lista de pokemon del usuario: "+u.getName());
+        return usuarios.get(u.getName()).returnPokemon() ;
     }
-
-    public List<Pokemon> returnPokemon() {
-        return null;
+    public ArrayList<Users> listaUsuarios(){
+        ArrayList<Users> us=new ArrayList<Users>();
+        int i=0;
+        for (String key: usuarios.keySet()) {
+            us.add(usuarios.get(key));
+            i++;
+        }
+        logger.info("Se devuelven "+i+ " usuarios");
+        return us;
     }
 }
 

@@ -5,11 +5,11 @@ import java.util.List;
  * Created by Alberto on 18/11/2016.
  */
 public class Users {
-    int id;
     String name;
+    String password;
     ArrayList<Pokemon> pokemons =new ArrayList<Pokemon>();
-    public Users(int id,String name){
-        this.id=id;
+    public Users(String name,String password){
+        this.password=password;
         this.name=name;
     }
     public void añadirPokemon(Pokemon p){
@@ -18,5 +18,8 @@ public class Users {
     public List<Pokemon> returnPokemon(){
         return this.pokemons;
     }
-
+    public String getName(){return this.name;}
+    public String getPassword(){return this.password;}
+    public void setName(String name){this.name=name;}
+    public int numeroPokemon(){return pokemons.size();}
 }
